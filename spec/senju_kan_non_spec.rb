@@ -30,7 +30,7 @@ RSpec.describe SenjuKanNon do
       end
 
       it "return pairwised Array" do
-        expect(subject.flatten.count).to eq(18)
+        expect(subject.count).to eq(9)
       end
     end
   end
