@@ -27,6 +27,8 @@ DO NOT USE IN PRODUCTION
 This gem is intended to generate test cases for pairwise testing.
 Please use in development/test environment.
 
+[Details](https://github.com/hanahiroAze/senju_kan_non/wiki/Usage)
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
