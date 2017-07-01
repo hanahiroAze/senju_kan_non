@@ -8,15 +8,14 @@ module SenjuKanNon
 
       keys = issai.keys
       idx = 0
-      records = []
 
       issai.each_value do |shujo|
         return false unless shujo.kind_of?(Array)
         neighbor = issai[keys[idx + 1]]
-        return records unless neighbor
+        return nil unless neighbor
 
-        records << combine(shujo, neighbor)
-        idx += 1
+        # TODO: need fix for issai has 3 or more params
+        return combine(shujo, neighbor)
       end
     end
 
@@ -26,7 +25,7 @@ module SenjuKanNon
         return nil unless values.kind_of?(Array)
         combinations = []
         base.each do |item|
-          values.map do |value|
+          values.each do |value|
             combinations << [item,value]
           end
         end
