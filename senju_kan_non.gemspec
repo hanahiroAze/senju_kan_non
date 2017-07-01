@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{generate array for pairwise testing.}
   spec.description   = %q{generate some patterns(array) for pairwise testing.(properly speaking, I use covering array method)}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/hanahiroAze/senju_kan_non"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
