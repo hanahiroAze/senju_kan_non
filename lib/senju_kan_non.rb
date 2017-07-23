@@ -19,11 +19,8 @@ module SenjuKanNon
           @riyaku[key] = []
         end
 
-        (0..keys.size-1).each do |i|
-          break unless issai_shujo[keys[i+1]]
-          first_eye = keys[i]
+        keys.combination(2) do |first_eye, second_eye|
           first_hand = issai_shujo[first_eye]
-          second_eye = keys[i+1]
           second_hand = issai_shujo[second_eye]
           gasshou(first_eye, first_hand, second_eye, second_hand)
         end
