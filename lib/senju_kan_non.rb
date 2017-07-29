@@ -5,7 +5,6 @@ module SenjuKanNon
     def redeem(issai_shujo)
       return false unless issai_shujo.kind_of?(Hash)
 
-      # TODO: need fix for issai has 3 or more params
       sekke(issai_shujo)
     end
 
@@ -24,6 +23,8 @@ module SenjuKanNon
           second_hand = issai_shujo[second_eye]
           gasshou(first_eye, first_hand, second_eye, second_hand)
         end
+
+        parse_columns_to_row
       end
 
       def gasshou(first_eye, first_hand, second_eye, second_hand)
@@ -33,6 +34,10 @@ module SenjuKanNon
             @riyaku[second_eye] << value
           end
         end
+      end
+
+      def parse_columns_to_row
+        @riyaku.values.transpose
       end
   end
 end
