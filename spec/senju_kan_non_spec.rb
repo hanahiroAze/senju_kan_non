@@ -33,5 +33,33 @@ RSpec.describe SenjuKanNon do
         expect(subject.count).to eq(9)
       end
     end
+
+    context "valid 3_params" do
+      let(:issai) do
+        { first: [1,2,3], second: ["a","b","c"], third: ["A","B","C"] }
+      end
+
+      it "return Array" do
+        expect(subject.kind_of?(Array)).to eq(true)
+      end
+
+      it "return pairwised Array" do
+        expect(subject.count).to eq(18)
+      end
+    end
+
+    context "valid 4_params" do
+      let(:issai) do
+        { first: [1,2,3], second: ["a","b","c"], third: ["A","B","C"], forth: [9, 8, 7] }
+      end
+
+      it "return Array" do
+        expect(subject.kind_of?(Array)).to eq(true)
+      end
+
+      it "return pairwised Array" do
+        expect(subject.count).to eq(27)
+      end
+    end
   end
 end

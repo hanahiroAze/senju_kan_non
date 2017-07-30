@@ -1,36 +1,43 @@
 require "senju_kan_non/version"
 
 module SenjuKanNon
-
   class << self
-    def redeem(issai)
-      return false unless issai.kind_of?(Hash)
+    def redeem(issai_shujo)
+      return false unless issai_shujo.kind_of?(Hash)
 
-      keys = issai.keys
-      idx = 0
-
-      issai.each_value do |shujo|
-        return false unless shujo.kind_of?(Array)
-        neighbor = issai[keys[idx + 1]]
-        return nil unless neighbor
-
-        # TODO: need fix for issai has 3 or more params
-        return combine(shujo, neighbor)
-      end
+      sekke(issai_shujo)
     end
 
     private
 
-      def combine(base, values)
-        return nil unless values.kind_of?(Array)
-        combinations = []
-        base.each do |item|
-          values.each do |value|
-            combinations << [item,value]
-          end
+      def sekke(issai_shujo)
+        keys = issai_shujo.keys
+        @riyaku = Hash.new { |h,k| h[k] = {} }
+
+        keys.each do |key|
+          @riyaku[key] = []
         end
 
-        combinations
+        keys.combination(2) do |first_eye, second_eye|
+          first_hand = issai_shujo[first_eye]
+          second_hand = issai_shujo[second_eye]
+          gasshou(first_eye, first_hand, second_eye, second_hand)
+        end
+
+        parse_columns_to_row
+      end
+
+      def gasshou(first_eye, first_hand, second_eye, second_hand)
+        first_hand.each do |item|
+          second_hand.each do |value|
+            @riyaku[first_eye] << item
+            @riyaku[second_eye] << value
+          end
+        end
+      end
+
+      def parse_columns_to_row
+        @riyaku.values.transpose
       end
   end
 end
