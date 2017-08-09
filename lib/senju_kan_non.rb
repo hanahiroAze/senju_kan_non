@@ -24,6 +24,7 @@ module SenjuKanNon
           gasshou(first_eye, first_hand, second_eye, second_hand)
         end
 
+        fill_short_values(issai_shujo)
         parse_columns_to_row
       end
 
@@ -36,8 +37,23 @@ module SenjuKanNon
         end
       end
 
-      def parse_columns_to_row
-        @riyaku.values.transpose
+      def fill_short_values(issai_shujo)
+        filling_size = @riyaku.values.map(&:size).max
+        @riyaku.each do |eye, hand|
+          if hand.size < filling_size
+            (1..(filling_size - hand.size)).each do |num|
+              if issai_shujo[eye][num].nil?
+                @riyaku[eye] << issai_shujo[eye][0]
+              else
+                @riyaku[eye] << issai_shujo[eye][num]
+              end
+            end
+          end
+        end
       end
-  end
+
+      def parse_columns_to_row
+        @riyaku.values.transpose.uniq
+      end
+    end
 end
