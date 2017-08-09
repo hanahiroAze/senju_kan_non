@@ -44,7 +44,7 @@ RSpec.describe SenjuKanNon do
       end
 
       it "return pairwised Array" do
-        expect(subject.count).to eq(18)
+        expect(subject.count).to eq(15)
       end
     end
 
@@ -58,7 +58,39 @@ RSpec.describe SenjuKanNon do
       end
 
       it "return pairwised Array" do
-        expect(subject.count).to eq(27)
+        expect(subject.count).to eq(21)
+      end
+    end
+
+    context "valid different size params" do
+      let(:issai) do
+        { first: [1,2], second: ["a","b","c"] }
+      end
+
+      it "return Array" do
+        expect(subject.kind_of?(Array)).to eq(true)
+      end
+
+      it "return pairwised Array" do
+        expect(subject.count).to eq(6)
+      end
+    end
+
+    context "valid different params" do
+      let(:issai) do
+        { first: [1,2,3,4],
+          second: ["a"],
+          third: ["b"],
+          forth: ["c"]
+        }
+      end
+
+      it "return Array" do
+        expect(subject.kind_of?(Array)).to eq(true)
+      end
+
+      it "return pairwised Array" do
+        expect(subject.count).to eq(4)
       end
     end
   end
