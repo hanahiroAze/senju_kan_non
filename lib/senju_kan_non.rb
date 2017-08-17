@@ -1,4 +1,5 @@
 require "senju_kan_non/version"
+require "senju_kan_non/config"
 
 module SenjuKanNon
   class << self
@@ -26,7 +27,7 @@ module SenjuKanNon
 
         fill_short_values(issai_shujo)
         formatted_riyaku = parse_columns_to_row
-        genze_riyaku(keys, formatted_riyaku)
+        genze_riyaku(keys, formatted_riyaku) if SenjuKanNon.config.file_output
 
         formatted_riyaku
       end
@@ -60,9 +61,9 @@ module SenjuKanNon
       end
 
       def genze_riyaku(keys, formatted_riyaku)
-        file_name = "#{Time.now.strftime("%Y%m%d%H%M%S")}_#{keys.join("_")}.txt"
-        FileUtils.mkdir_p("test/senju_kan_non/") unless FileTest.exist?("test/senju_kan_non/")
-        File.open("test/senju_kan_non/#{file_name}", "w") do |f|
+        file_name = "#{Time.now.strftime("%Y%m%d%H%M%S")}_#{keys.join("_")}.#{SenjuKanNon.config.file_output_extension}"
+        FileUtils.mkdir_p(SenjuKanNon.config.file_output_path) unless FileTest.exist?(SenjuKanNon.config.file_output_path)
+        File.open(SenjuKanNon.config.file_output_path + file_name, "w") do |f|
           formatted_riyaku.each do |fr|
             f.puts(fr.to_s)
           end
