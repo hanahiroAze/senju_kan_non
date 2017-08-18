@@ -17,7 +17,7 @@ module SenjuKanNon
   end
 
   configure do |config|
-    config.file_output = true
+    config.file_output = false
     config.file_output_path = "test/senju_kan_non/"
     config.file_output_extension = "txt"
   end
