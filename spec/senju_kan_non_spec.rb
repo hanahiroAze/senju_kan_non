@@ -111,8 +111,7 @@ RSpec.describe SenjuKanNon do
       end
 
       it "not to output file" do
-        subject
-        expect(Dir.glob( SenjuKanNon.config.file_output_path).count - 1).to eq(0)
+        expect{ subject }.to change{ Dir.glob("#{SenjuKanNon.config.file_output_path}*").count }.by(0)
       end
     end
 
