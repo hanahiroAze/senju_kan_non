@@ -1,4 +1,5 @@
 require "senju_kan_non/version"
+require "senju_kan_non/config"
 
 module SenjuKanNon
   class << self
@@ -25,7 +26,10 @@ module SenjuKanNon
         end
 
         fill_short_values(issai_shujo)
-        parse_columns_to_row
+        formatted_riyaku = parse_columns_to_row
+        genze_riyaku(keys, formatted_riyaku) if SenjuKanNon.config.file_output
+
+        formatted_riyaku
       end
 
       def gasshou(first_eye, first_hand, second_eye, second_hand)
@@ -54,6 +58,16 @@ module SenjuKanNon
 
       def parse_columns_to_row
         @riyaku.values.transpose.uniq
+      end
+
+      def genze_riyaku(keys, formatted_riyaku)
+        file_name = "#{Time.now.strftime("%Y%m%d%H%M%S")}_#{keys.join("_")}.#{SenjuKanNon.config.file_output_extension}"
+        FileUtils.mkdir_p(SenjuKanNon.config.file_output_path) unless FileTest.exist?(SenjuKanNon.config.file_output_path)
+        File.open(SenjuKanNon.config.file_output_path + file_name, "w") do |f|
+          formatted_riyaku.each do |fr|
+            f.puts(fr.to_s)
+          end
+        end
       end
     end
 end
