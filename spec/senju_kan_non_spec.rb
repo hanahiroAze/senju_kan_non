@@ -93,5 +93,42 @@ RSpec.describe SenjuKanNon do
         expect(subject.count).to eq(4)
       end
     end
+
+    context "default setting" do
+      let(:issai) do
+        { first: [1,2,3,4],
+          second: ["a"],
+          third: ["b"],
+          forth: ["c"]
+        }
+      end
+      SenjuKanNon.config.file_output = false
+
+      it "to be default setting" do
+        expect(SenjuKanNon.config.file_output).to eq(false)
+        expect(SenjuKanNon.config.file_output_path).to eq("test/senju_kan_non/")
+        expect(SenjuKanNon.config.file_output_extension).to eq("txt")
+      end
+
+      it "not to output file" do
+        subject
+        expect(Dir.glob( SenjuKanNon.config.file_output_path).count - 1).to eq(0)
+      end
+    end
+
+    context "enable file output" do
+      let(:issai) do
+        { first: [1,2,3,4],
+          second: ["a"],
+          third: ["b"],
+          forth: ["c"]
+        }
+      end
+
+      it "output file" do
+        SenjuKanNon.config.file_output = true
+        expect{ subject }.to change{ Dir.glob("#{SenjuKanNon.config.file_output_path}*").count }.by(1)
+      end
+    end
   end
 end
