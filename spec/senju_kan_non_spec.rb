@@ -108,6 +108,7 @@ RSpec.describe SenjuKanNon do
         expect(SenjuKanNon.config.file_output).to eq(false)
         expect(SenjuKanNon.config.file_output_path).to eq("test/senju_kan_non/")
         expect(SenjuKanNon.config.file_output_extension).to eq("txt")
+        expect(SenjuKanNon.config.use_file).to eq(false)
       end
 
       it "not to output file" do

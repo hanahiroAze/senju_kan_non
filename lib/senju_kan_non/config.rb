@@ -21,6 +21,6 @@ module SenjuKanNon
     config.file_output = false
     config.file_output_path = "test/senju_kan_non/"
     config.file_output_extension = "txt"
-    config.use_file = true
+    config.use_file = false
   end
 end
