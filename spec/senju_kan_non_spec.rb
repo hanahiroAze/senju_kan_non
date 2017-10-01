@@ -7,8 +7,10 @@ RSpec.describe SenjuKanNon do
 
   describe "#redeem" do
     subject do
-      SenjuKanNon.redeem(issai)
+      SenjuKanNon.redeem(issai, time)
     end
+
+    let(:time) { nil }
 
     context "invalid params" do
       let(:issai) do
@@ -108,6 +110,7 @@ RSpec.describe SenjuKanNon do
         expect(SenjuKanNon.config.file_output).to eq(false)
         expect(SenjuKanNon.config.file_output_path).to eq("test/senju_kan_non/")
         expect(SenjuKanNon.config.file_output_extension).to eq("txt")
+        expect(SenjuKanNon.config.use_file).to eq(false)
       end
 
       it "not to output file" do
@@ -127,6 +130,27 @@ RSpec.describe SenjuKanNon do
       it "output file" do
         SenjuKanNon.config.file_output = true
         expect{ subject }.to change{ Dir.glob("#{SenjuKanNon.config.file_output_path}*").count }.by(1)
+      end
+    end
+
+    context "enable file use" do
+      let(:issai) do
+        { first: [1,2,3,4],
+          second: ["a"],
+          third: ["b"],
+          forth: ["c"]
+        }
+      end
+      let(:time) { Time.now }
+
+      before do
+        allow(File).to receive(:exist?).and_return(true)
+        allow(File).to receive(:open).and_return(File.open("spec/fixture/history_file_fixture.txt"))
+      end
+
+      it "return file content" do
+        SenjuKanNon.config.use_file = true
+        expect(subject.count).to eq(3)
       end
     end
   end
