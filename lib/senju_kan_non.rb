@@ -3,10 +3,18 @@ require "senju_kan_non/config"
 
 module SenjuKanNon
   class << self
-    def redeem(issai_shujo)
+    def redeem(issai_shujo, time=nil)
       return false unless issai_shujo.kind_of?(Hash)
 
-      sekke(issai_shujo)
+      if SenjuKanNon.config.use_file && File.exist?(SenjuKanNon.config.file_output_path + file_name(issai_shujo.keys, time))
+        File.open(SenjuKanNon.config.file_output_path + file_name(issai_shujo.keys, time)) do |file|
+          file.read.split("\n").each do |history|
+            p history
+          end
+        end
+      else
+        sekke(issai_shujo)
+      end
     end
 
     private
@@ -61,13 +69,17 @@ module SenjuKanNon
       end
 
       def genze_riyaku(keys, formatted_riyaku)
-        file_name = "#{Time.now.strftime("%Y%m%d%H%M%S")}_#{keys.join("_")}.#{SenjuKanNon.config.file_output_extension}"
         FileUtils.mkdir_p(SenjuKanNon.config.file_output_path) unless FileTest.exist?(SenjuKanNon.config.file_output_path)
-        File.open(SenjuKanNon.config.file_output_path + file_name, "w") do |f|
+        File.open(SenjuKanNon.config.file_output_path + file_name(keys), "w") do |f|
           formatted_riyaku.each do |fr|
             f.puts(fr.to_s)
           end
         end
+      end
+
+      def file_name(keys, time=nil)
+        time = Time.now.strftime("%Y%m%d%H%M%S") unless time
+        "#{time}_#{keys.join("_")}.#{SenjuKanNon.config.file_output_extension}"
       end
     end
 end
