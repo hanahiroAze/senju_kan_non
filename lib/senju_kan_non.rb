@@ -1,5 +1,6 @@
 require "senju_kan_non/version"
 require "senju_kan_non/config"
+require "json"
 
 module SenjuKanNon
   class << self
@@ -7,9 +8,10 @@ module SenjuKanNon
       return false unless issai_shujo.kind_of?(Hash)
 
       if SenjuKanNon.config.use_file && File.exist?(SenjuKanNon.config.file_output_path + file_name(issai_shujo.keys, time))
+        @formatted_riyaku = []
         File.open(SenjuKanNon.config.file_output_path + file_name(issai_shujo.keys, time)) do |file|
-          file.read.split("\n").each do |history|
-            p history
+          file.read.split("\n").each do |row|
+            @formatted_riyaku << JSON.parse(row)
           end
         end
       else
