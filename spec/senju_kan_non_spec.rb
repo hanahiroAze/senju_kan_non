@@ -98,11 +98,7 @@ RSpec.describe SenjuKanNon do
 
     context "default setting" do
       let(:issai) do
-        { first: [1,2,3,4],
-          second: ["a"],
-          third: ["b"],
-          forth: ["c"]
-        }
+        { first: [1,2,3,4], second: ["a"], third: ["b"], forth: ["c"] }
       end
       SenjuKanNon.config.file_output = false
 
@@ -146,10 +142,10 @@ RSpec.describe SenjuKanNon do
       before do
         allow(File).to receive(:exist?).and_return(true)
         allow(File).to receive(:open).and_return(File.open("spec/fixture/history_file_fixture.txt"))
+        SenjuKanNon.config.use_file = true
       end
 
       it "return file content" do
-        SenjuKanNon.config.use_file = true
         expect(subject.count).to eq(3)
       end
     end
