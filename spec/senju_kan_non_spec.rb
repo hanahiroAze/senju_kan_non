@@ -140,12 +140,17 @@ RSpec.describe SenjuKanNon do
 
       before do
         allow(File).to receive(:exist?).and_return(true)
-        allow(File).to receive(:open).and_return(File.open("spec/fixture/history_file_fixture.json"))
+        allow(SenjuKanNon).to receive(:file_name).and_return("history_file_fixture.json")
+        SenjuKanNon.config.file_output_path = "spec/fixture/"
         SenjuKanNon.config.use_file = true
       end
 
       it "return file content" do
-        expect(subject.count).to eq(1)
+        expect(subject.count).to eq(3)
+      end
+
+      it "return array" do
+        expect(subject).to eq([[1, "a", "b", "c"], [2, "a", "b", "c"], [3, "a", "b", "c"]])
       end
     end
   end
