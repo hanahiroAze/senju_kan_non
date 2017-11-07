@@ -8,11 +8,8 @@ module SenjuKanNon
       return false unless issai_shujo.kind_of?(Hash)
 
       if SenjuKanNon.config.use_file && File.exist?(SenjuKanNon.config.file_output_path + file_name(issai_shujo.keys, time))
-        @formatted_riyaku = []
         File.open(SenjuKanNon.config.file_output_path + file_name(issai_shujo.keys, time)) do |file|
-          file.read.split("\n").each do |row|
-            @formatted_riyaku << JSON.parse(row)
-          end
+          JSON.load(file)
         end
       else
         sekke(issai_shujo)
@@ -73,15 +70,13 @@ module SenjuKanNon
       def genze_riyaku(keys, formatted_riyaku)
         FileUtils.mkdir_p(SenjuKanNon.config.file_output_path) unless FileTest.exist?(SenjuKanNon.config.file_output_path)
         File.open(SenjuKanNon.config.file_output_path + file_name(keys), "w") do |f|
-          formatted_riyaku.each do |fr|
-            f.puts(fr.to_s)
-          end
+          JSON.dump(formatted_riyaku, f)
         end
       end
 
       def file_name(keys, time=nil)
         time = Time.now.strftime("%Y%m%d%H%M%S") unless time
-        "#{time}_#{keys.join("_")}.#{SenjuKanNon.config.file_output_extension}"
+        "#{time}_#{keys.join("_")}.json"
       end
     end
 end

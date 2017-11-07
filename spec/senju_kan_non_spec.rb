@@ -105,7 +105,6 @@ RSpec.describe SenjuKanNon do
       it "to be default setting" do
         expect(SenjuKanNon.config.file_output).to eq(false)
         expect(SenjuKanNon.config.file_output_path).to eq("test/senju_kan_non/")
-        expect(SenjuKanNon.config.file_output_extension).to eq("txt")
         expect(SenjuKanNon.config.use_file).to eq(false)
       end
 
@@ -141,12 +140,17 @@ RSpec.describe SenjuKanNon do
 
       before do
         allow(File).to receive(:exist?).and_return(true)
-        allow(File).to receive(:open).and_return(File.open("spec/fixture/history_file_fixture.txt"))
+        allow(SenjuKanNon).to receive(:file_name).and_return("history_file_fixture.json")
+        SenjuKanNon.config.file_output_path = "spec/fixture/"
         SenjuKanNon.config.use_file = true
       end
 
       it "return file content" do
         expect(subject.count).to eq(3)
+      end
+
+      it "return array" do
+        expect(subject).to eq([[1, "a", "b", "c"], [2, "a", "b", "c"], [3, "a", "b", "c"]])
       end
     end
   end
